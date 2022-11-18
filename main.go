@@ -34,7 +34,7 @@ const defaultURL = "https://candystore.zimpler.net/"
 
 func main() {
 	url := flag.String("url", defaultURL, "url to fetch data from")
-    flag.Parse()
+	flag.Parse()
 
 	CustomersTable := webscraper.CollectData(*url)
 	topCustomers := make([]TopCustomer, 0)
