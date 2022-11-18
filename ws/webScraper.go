@@ -16,10 +16,10 @@ type Customer struct {
 	Snack Snack
 }
 
-func contains(allCandysPerPerson []Snack, candyName string) (bool, int) {
-	// Check if the candy already exists
-    for i, c := range allCandysPerPerson {
-        if c.Brand == candyName {
+func contains(allSnacksPerCustomer []Snack, snackName string) (bool, int) {
+	// Check if the snack already exists
+    for i, c := range allSnacksPerCustomer {
+        if c.Brand == snackName {
 			return true, i
 		}
     }
@@ -27,7 +27,7 @@ func contains(allCandysPerPerson []Snack, candyName string) (bool, int) {
 }
 
 func CollectData(url string) map[string][]Snack {
-	// Fech the data from the url, getting specific data about the candy table
+	// Fetch the data from the url, getting specific data about the snack table
 	c := colly.NewCollector()
 
 	customersData := make(map[string][]Snack)
@@ -54,10 +54,10 @@ func CollectData(url string) map[string][]Snack {
 				Snack: Snack{el.ChildText("td:nth-child(2)"), eaten},
 			}
 
-			// Check if the customer have already bought this candy
-			// If so, add the eaten amount to the existing candy
+			// Check if the customer has already bought the snack
+			// If so, add the eaten amount to the existing snack
 			// it makes easier later to find which snack is the favorite
-			// since the amount itself is not enough to define the favorite.
+			// since the amount itself is not enough to define it.
 			if _, ok :=	customersData[customer.Name]; ok {
 				if exists, index := contains(customersData[customer.Name], customer.Snack.Brand); exists {
 					customersData[customer.Name][index].Eaten += customer.Snack.Eaten
